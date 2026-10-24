@@ -1,0 +1,47 @@
+name: ClipVault
+options:
+  bundleIdPrefix: com.clipvault
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGNING_ALLOWED: "YES"
+    CODE_SIGN_IDENTITY: ""
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  ClipVault:
+    type: application
+    platform: macOS
+    sources:
+      - path: ClipVault
+        excludes:
+          - "**/*.md"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipvault.app
+        INFOPLIST_FILE: ClipVault/Info.plist
+    dependencies:
+      - sdk: AppKit.framework
+      - sdk: SwiftUI.framework
+      - sdk: ServiceManagement.framework
+
+  ClipVaultTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: ClipVaultTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.clipvault.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ClipVault.app/Contents/MacOS/ClipVault"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+    dependencies:
+      - target: ClipVault
